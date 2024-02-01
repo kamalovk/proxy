@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  output: "export",  // <=== enables static exports
+  output: "export",
   reactStrictMode: true,
 };
 
