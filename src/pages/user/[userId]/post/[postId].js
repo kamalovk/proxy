@@ -24,7 +24,20 @@ const PostDetail = ({ post, comments }) => {
   );
 };
 
-export async function getServerSideProps({ params }) {
+export async function getStaticPaths() {
+  const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/`);
+  const posts = response.data;
+
+
+  const paths = posts.map((user) => ({
+    params: { userId: user.userId.toString(), postId: user.id.toString() },
+  }))
+
+  return { paths, fallback: false }
+}
+
+
+export async function getStaticProps({ params }) {
   const { postId } = params;
 
   const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}`);

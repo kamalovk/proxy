@@ -9,7 +9,7 @@ const UserProfile = ({ user, posts, albums }) => {
       <Link href="/">
         Go Back
       </Link>
-      <h1>{user.name}'s Profile</h1>
+      <h1>{user.name} Profile</h1>
       <div className='user-block'>
         <div>
           <h2>Posts</h2>

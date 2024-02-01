@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import Image from 'next/image'
 
 const AlbumDetail = ({ album, photos }) => {
   return (
@@ -12,7 +13,8 @@ const AlbumDetail = ({ album, photos }) => {
       <div className='photo-list'>
         {photos.map((photo) => (
           <div key={photo.id} className='photo-list-item'>
-            <img src={photo.thumbnailUrl} alt={photo.title} />
+            <img
+              src={photo.thumbnailUrl} alt={photo.title} />
             <p>{photo.title}</p>
           </div>
         ))}
@@ -21,7 +23,19 @@ const AlbumDetail = ({ album, photos }) => {
   );
 };
 
-export async function getServerSideProps({ params }) {
+export async function getStaticPaths() {
+  const response = await axios.get(`https://jsonplaceholder.typicode.com/albums/`);
+  const album = response.data;
+
+
+  const paths = album.map((user) => ({
+    params: { userId: user.userId.toString(), albumId: user.id.toString() },
+  }))
+
+  return { paths, fallback: false }
+}
+
+export async function getStaticProps({ params }) {
   const { albumId } = params;
 
   const response = await axios.get(`https://jsonplaceholder.typicode.com/albums/${albumId}`);
